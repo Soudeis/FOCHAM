@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHAMSAL-HOUDA - Fondation Humanitaire</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+   <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="Asset\LOGO FOCHAM Fondation Chamsalhouda.png" alt="Logo CHAMSAL-HOUDA" class="logo-img">
+                <span class="logo-fondation">CHAMSAL-HOUDA</span>
+            </a>
+            
+            <div class="nav-menu" id="navMenu">
+                <i class="fas fa-times menu-close" id="menuClose"></i>
+                <a href="index.html" class="nav-link">Accueil</a>
+                <a href="debut.html" class="nav-link">Genese</a>
+                <a href="miya.html" class="nav-link">Activités</a>
+                <a href="reglement.html" class="nav-link">Réglément</a>
+                <a href="cartographie.html" class="nav-link">Cartographie</a>
+            </div>
+            
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu mobile">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Solidarité & Développement Durable</h1>
+            <p class="hero-subtitle">Transformer des vies grâce à l'action communautaire</p>
+            <div class="cta-container">
+                <a href="miya.html" class="cta-button">Découvrir nos actions</a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Carrousel Swiper -->
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <img src="Asset\PHOTO-2025-05-16-20-45-01.jpg" alt="Photo activités" class="swiper-image">
+            </div>
+            <div class="swiper-slide">
+                <img src="Asset\PHOTO-2025-05-16-20-43-21.jpg" alt="Photo activités" class="swiper-image">
+            </div>
+            <div class="swiper-slide">
+                <img src="Asset\PHOTO-2025-05-16-20-43-50.jpg" alt="photo activités" class="swiper-image">
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+
+    <!-- Impact Section -->
+    <section class="impact-section">
+        <div class="impact-grid">
+            <div class="impact-card">
+                <div class="stat-number">10K+</div>
+                <div class="stat-label">Bénéficiaires</div>
+            </div>
+            <div class="impact-card">
+                <div class="stat-number">Plusieurs</div>
+                <div class="stat-label">Projets réalisés</div>
+            </div>
+            <div class="impact-card">
+                <div class="stat-number">21</div>
+                <div class="stat-label">Organisations affilées</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+        <div class="masonry-grid">
+            <div class="gallery-item">
+                <img src="Asset\PHOTO-2025-05-16-20-43-20 (1).jpg" alt="Activités" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                
+                <img src="Asset\PHOTO-2025-05-16-20-36-30 (1).jpg" alt="Activités" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="Asset\PHOTO-2025-05-16-20-33-08.jpg" alt="Activités" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-wave"></div>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Notre engagement</h3>
+                <p>Agir pour un avenir meilleur grâce à des solutions durables et inclusives</p>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><a href="mailto:fondation.chamsalhouda@gmail.com" style="color: #f7fafc;">fondation.chamsalhouda@gmail.com</a></p>
+                <p>+235 66251050</p>
+                <p>Abeche, Tchad</p>
+            </div>
+            <div class="footer-section">
+                <h3>Suivez-nous</h3>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="Linkedin"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <p class="copyright">&copy; <span id="current-year"></span> CHAMSAL-HOUDA</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // Gestion du Header
+        let lastScroll = 0;
+        const header = document.getElementById('header');
+        const scrollThreshold = 100;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > lastScroll && currentScroll > scrollThreshold) {
+                header.classList.add('hidden');
+            } else {
+                header.classList.remove('hidden');
+            }
+            lastScroll = currentScroll;
+        });
+
+        // Gestion du Menu Mobile
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+        const menuClose = document.getElementById('menuClose');
+
+        function toggleMenu() {
+            const isMobile = window.matchMedia("(max-width: 1024px)").matches;
+            if (isMobile) {
+                navMenu.classList.toggle('active');
+                menuToggle.classList.toggle('hidden');
+                document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
+            }
+        }
+
+        menuToggle.addEventListener('click', toggleMenu);
+        menuClose.addEventListener('click', toggleMenu);
+
+        // Fermeture au clic extérieur
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                navMenu.classList.remove('active');
+                menuToggle.classList.remove('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Fermeture au scroll
+        window.addEventListener('scroll', () => {
+            if (navMenu.classList.contains('active')) {
+                toggleMenu();
+            }
+        });
+
+        // Initialisation Swiper
+        const swiper = new Swiper('.swiper', {
+            loop: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
+
+        // Animations au défilement
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.impact-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Initialisation année
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

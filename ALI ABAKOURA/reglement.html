@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Règlement 2.0 - CHAMSAL-HOUDA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary-color: #1a365d;
+            --secondary-color: #2b6cb0;
+            --accent-color: #c53030;
+            --text-light: #f7fafc;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body {
+            background: #0f172a;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+        }
+
+      
+        .cyber-hero {
+            height: 60vh;
+            background: 
+                linear-gradient(45deg, rgba(26, 54, 93, 0.9), rgba(43, 108, 176, 0.7)),
+                url('images/digital-bg.jpg') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%);
+            position: relative;
+            margin-bottom: 8rem;
+        }
+
+        .cyber-hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent 0px,
+                transparent 2px,
+                rgba(255,255,255,0.05) 3px,
+                rgba(255,255,255,0.05) 4px
+            );
+        }
+
+        .cyber-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 4rem;
+        }
+
+        .cyber-toc {
+            position: sticky;
+            top: 120px;
+            height: fit-content;
+            padding: 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc-link {
+            color: inherit;
+            text-decoration: none;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            display: block;
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        .toc-link:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateX(10px);
+        }
+
+        .cyber-article {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .cyber-article:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .article-number {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 60px;
+            height: 60px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(197, 48, 48, 0.3);
+        }
+
+        .cyber-title {
+            font-size: 3.2rem;
+            background: linear-gradient(45deg, #fff, #2b6cb0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 3rem;
+        }
+
+        .hologram-effect {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hologram-effect::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, 
+                transparent 40%, 
+                rgba(255,255,255,0.1) 50%, 
+                transparent 60%);
+            animation: hologram 6s infinite linear;
+            pointer-events: none;
+        }
+
+        @keyframes hologram {
+            0% { transform: translate(0,0) rotate(45deg); }
+            100% { transform: translate(100%,100%) rotate(45deg); }
+        }
+
+        .download-container {
+            text-align: center;
+            margin: 8rem 0;
+            position: relative;
+        }
+
+        .neon-button {
+            padding: 1.5rem 4rem;
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            border-radius: 50px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .neon-button::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -100%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(197, 48, 48, 0.3), 
+                transparent);
+            transform: rotate(45deg);
+            transition: var(--transition);
+        }
+
+        .neon-button:hover {
+            box-shadow: 0 0 30px rgba(197, 48, 48, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .neon-button:hover::before {
+            left: 100%;
+        }
+
+        @media (max-width: 1024px) {
+            .cyber-container {
+                grid-template-columns: 1fr;
+            }
+
+            .cyber-toc {
+                position: static;
+                margin-bottom: 4rem;
+            }
+        }
+    
+    </style>
+</head>
+<body>
+    <header class="header" id="header">
+        
+            <nav class="nav-container">
+                <a href="index.html" class="logo">
+                    <img src="Asset\LOGO FOCHAM Fondation Chamsalhouda.png" alt="Logo CHAMSAL-HOUDA" class="logo-img">
+                    <span class="logo-fondationt">CHAMSAL-HOUDA</span>
+                </a>
+                
+                <div class="nav-menu" id="navMenu">
+                    <i class="fas fa-times menu-close" id="menuClose"></i>
+                <a href="index.html" class="nav-link">Accueil</a>
+                <a href="debut.html" class="nav-link">Genese</a>
+                <a href="miya.html" class="nav-link">Activités</a>
+                <a href="reglement.html" class="nav-link">Réglément</a>
+                <a href="cartographie.html" class="nav-link">Cartographie</a>
+                </div>
+                
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu mobile">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        
+    </header>
+
+    <section class="cyber-hero hologram-effect">
+        <h1 class="cyber-title">Règlement Digital </h1>
+    </section>
+
+    <div class="cyber-container">
+        <nav class="cyber-toc">
+            <h3>Navigation Intelligente</h3>
+            <ul class="toc-list">
+                <li><a href="#part1" class="toc-link">Partie I - Disposition generales</a></li>
+                <li><a href="#part2" class="toc-link">Partie II - Devise et Logo</a></li>
+                <li><a href="#part3" class="toc-link">Partie III - Des organes</a></li>
+                <li><a href="#part4" class="toc-link">Partie IV - Des organisations et fonctions</a></li>
+                <li><a href="#part5" class="toc-link">Parti V - Des Attributions</a></li>
+                <li><a href="#part6" class="toc-link">Parti  VI- Adhesion-Droit-Devoirs</a></li>
+                <li><a href="#part7" class="toc-link">Parti  VII- Des ressources et leurs utilisations</a></li>
+                <li><a href="#part8" class="toc-link">Parti  VIII- Demission-Sanction</a></li>
+                <li><a href="#part9" class="toc-link">Parti  IX- Dissolution</a></li>
+                <li><a href="#part10" class="toc-link">Parti  X- Disposition diverses</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <article id="part1" class="cyber-article hologram-effect">
+                <div class="article-number">I</div>
+                <h2>DISPOSITION GENERALES</h2>
+                <p>La dénomination <strong>CHAMSAL-HOUDA</strong> c'est le nom de la fondatrice</p>
+                <section class="chapter">
+                    <h3>Article 1</h3>
+                    <p>La fondation interdit tout débat à caractère politique ou religieux dans ses sessions. Cependant la liberté de penser d'opinion
+                        politique reste reconnu à chaque membre et son exercice par chacun et se fait en dehors de la fondation
+                      </p>
+                </section>
+                
+            </article>
+
+            <article id="part2" class="cyber-article hologram-effect">
+                <div class="article-number">II</div>
+                <h2>DEVISE ET LOGO</h2>
+                <section class="chapter">
+                    
+                        <h3>Article 2</h3>
+                        <p>La devise de <strong>CHAMSAL-HOUDA</strong>
+                            est <em>Solidarité-Humanité-Tolerance</em>
+                        </p>>
+                   
+                </section>
+                <section class="chapter">
+                    <h3>Article 3</h3>
+                    <p>Le logo de <strong>CHAMSAL-HOUDA</strong>
+                        est présenté par une femme en train de cuisiner et à coté d'elle des enfants en train de s'amuser</p>
+                </section>
+            </article>
+
+            <article id="part3" class="cyber-article hologram-effect">
+                <div class="article-number">III</div>
+                <h2>DES ORGANES</h2>
+                <section class="chapter">
+                    <h3>Article 4</h3>
+                    <p>Les organes de la fondation se compose comme suit:</p>
+                    <ul id="li">
+                        <li>Un comité directeur</li>
+                        <li>Un conseil technique</li>
+                    </ul>
+                </section>
+            </article>
+
+            <article id="part4" class="cyber-article hologram-effect">
+                <div class="article-number">-IV</div>
+                <h2>DES ORGANISATIONS ET FONCTIONNEMENT</h2>
+                <section class="chapter">
+                    <h3>Article 5</h3>
+                    
+                    <p>Le comité directeur se compose comme suit:</p>
+            <ul>
+                <li>Une présidente</li>
+                <li>Un vice président</li>
+                <li>Un secretaire général</li>
+                <li>Un sécrétaire général adjoint</li>
+                <li>Une trésoriére</li>
+                <li>Une trésoriére adjointe</li>
+            </ul>
+            <p>Le comité directeur est la haute instance de la fondation . Il est souverain  et siége une fois
+                l'an en session ordinaire. Toutefois des sessions extraordinaires 
+                peuvent etre convoquées en cas de nécéssité à la demande du comité directeur et a pour role de :
+            </p>
+            <ul>
+                <li>Approuver les programmes d'actions de la fondation</li>
+                <li>Décider des modifications des statuts et règlement</li>
+            </ul>
+                </section>
+                <section class="chapter">
+                    <h3>Article 6</h3>
+                    <p>Le comité directeur dirige et administre les activités de la fondation conformément aux programmes 
+                        d'action approuvés par le comité directeur . Les membres sont eligibles deux fois.
+                    </p>
+                </section>
+                <section class="chapter">
+                    <h3>Article 7</h3>
+                    
+                    <p>Le conseil technique se compose suit: </p>
+            <ul class>
+                <li>Un conseiller aux relations extérieres</li>
+                <li>Un conseiller à la santé</li>
+                <li>Un conseiller à l'education , culture,jeunesse et sport</li>
+                <li>Un conseiller au développement rural et à l'environnement</li>
+                <li>Un conseiller aux affaires juridiques et administratives</li>
+                <li>Un conseiller à l'action sociale et à la famille</li>
+                <li>Un conseiller à l'économie et aux finances</li>
+            </ul>
+                </section>
+                <section class="chapter">
+                    <h3>Article 8</h3>
+                    <p>Les conseillers jouent des roles consultatifs et assistent aux réunions élargies du comité</p>
+
+                </section>
+            </article>
+
+            <article id="part5" class="cyber-article hologram-effect">
+                <div class="article-number">-V</div>
+                <h2>DES ATTRIBUTIONS</h2>
+                <section class="chapter">
+                    <h3>Article 9</h3>
+                    <p>La présidente du comité directeur est la première responsable de la fondation et
+                        l'ordonnatrice des dépenses. Elle assure la régularité du fonctionnement de la fondation
+                        conformément aux statuts et règlement intérieur. <br>
+                        Elle présente un discours moral à l'AG et convoque l'assemblée ainsi que les réunions et
+                        sessions" Elle est assisté du vice président à qui elle délègue une partie de ses pouvoirs et
+                        assrJme ses fonctions en cas d'empêchement.</p>
+                </section>
+                <section class="chapter">
+                    <h3>Article 10</h3>
+                    <p>Le secrétaire général veille au bon déroulement des activités administratives de la fondation.
+                        Il présente à l'AG un rapport d'activités de la fondation. <br> Il est responsable de la conservation des archives les procès - verbaux des sessions et
+                        réunions centralise les rapports des différentes sections et cellules, instruit et liquide les
+                        demande de prestations des activités de la fondation. Il est assisté dans ses tâches du secrétaire
+                        général adjoint</p>
+                </section>
+                <section class="chapter">
+                    <h3>Article 11</h3>
+                    <p>Le secrétaire aux relations extérieures s'occupe des relations entre la fondation et les
+                        organismes étatiques ONG, représentations diplomatiques ... <br>
+                        Il est secondé du secrétaire aux relations extérieures adjoint.</p> 
+                </section>
+                <section class="chapter">
+                    <h3>Article 12</h3>
+                    <p>Le commissaire aux comptes est chargé de Ia vérif,rcation et contrôle de la comptabilité de la
+                        caisse et de l'inventaire des biens de la fbndation. Ils sont au nombre de trois (3) et sont
+                        désignés par le comité directeur.</p>
+                </section>
+                <section class="chapter">
+                    <h3>Article 13</h3>
+                    <p>Le commissaire aux comptes est chargé de Ia vérif,rcation et contrôle de la comptabilité de la
+                        caisse et de l'inventaire des biens de la fbndation. Ils sont au nombre de trois (3) et sont
+                        désignés par le comité directeur.</p>
+                </section>
+            </article>
+
+            <article id="part6" class="cyber-article hologram-effect">
+                <div class="article-number">-VI</div>
+                <h2>ADHESION-DROITS-DEVOIRS</h2>
+                <section class="chapter">
+                    <h3>Article 14</h3>
+                    <p>Peut être membre de la fondation, toute personne physique ou morale souscrivant aux statuts
+                        et règlement intérieur de la fondation.</p>
+                </section>
+                <section class="chapter">
+                    <h3>Article 15</h3>
+                    <p>Tout membre de la fondation a l'obligation :</p>
+                    <ul>
+                        <li>d'avoir une carte d'adhésion</li>
+                        <li>de participer activement aux réunions et activités de la fondation</li>
+                    </ul>
+                </section>
+                <section class="chapter">
+                    <h3>Article 16</h3>
+                    <p>Tout membre de la fondation a le droit :</p>
+            <strong>d'exprimer librement ses opinions sur toutes suggestions relatives au Bien être Social
+                et au développement humain.</strong>
+                </section>
+            </article>
+            <article id="part7" class="cyber-article hologram-effect">
+                <div class="article-number">-VIII</div>
+                <h2>DES RESSOURCES DE LA FONDATION ET LEURS UTILISATIONS</h2>
+                <section class="chapter">
+                    <h3>Article 17</h3>
+                    <p>Les ressources de la fondation proviennent de: </p>
+            <ul class>
+                <li>La société Nasrinè de service et d'entretien (Snase SARL)</li>
+                <li>Subvention, dons et legs</li>
+                <li>Manifestationsdiverses</li>
+            </ul>
+                </section>
+                <section class="chapter">
+                    <h3>Article 18</h3>
+                    <p>L'engagement des dépenses de la fondation à tous les niveaux se fait sur la base des
+                        signatures conjointes du premier responsable (Présidente ou son adjoint) et du chargé des
+                        finances (trésorier ou adjoint).
+                        </p>
+                </section>
+                <section class="chapter">
+                    <h3>Article 19</h3>
+                    <P>Les ressources de la fondation doivent être utilisées seulement dans le cadre de ses activités</P>
+                </section>
+            </article>
+            <article id="part8" class="cyber-article hologram-effect">
+                <div class="article-number">-VIII</div>
+                <h2>DEMISSION-SANCTION/h2>
+                <section class="chapter">
+                    <h3>Article 20</h3>
+                    <P>Toute démission doit se faire par une lettre adressée au comité directeur expliquant les
+                        motifs. Le comité directeur l'examine et prend acte. Toute fois un délai de trois mois est
+                        accordé à l'intéressé s'il veut revenir sur sa décision. La décision définitive est entérinée par
+                        I'AG</P>
+                </section>
+                <h3>Article 21</h3>
+                <p>Le non respect des textes de la fondation, le détournement de fonds, ou des biens, divulgation
+                    des secrets est passible des sanctions. Des poursuites judiciaires peuvent être engagées en cas
+                    de détournements ou de litige.</p>
+            <p>Les differentes sanctions sont :</p>
+            <ul>
+                <li>L'avertissement</li>
+                <li>Le blâme</li>
+                <li>La suspension</li>
+                <li>L'exclusion</li>
+            </ul>
+                </section>
+                <h3>Article 22</h3>
+                <p>Toute sanction à l'endroit d'un membre de la fondation est prise après audition de l'intéressé
+                    par le comité directeur</p> 
+                </section>
+                <h3>Article 23</h3>
+                <p>Les membres exclus ou démissionnaires perdent leurs droits et ne peuvent prétendre à aucune
+                    revendication.
+                    </p>
+                </section>
+            </article>
+            <article id="part9" class="cyber-article hologram-effect">
+                <div class="article-number"> IX</div>
+                <h2>DISSOLUTION</h2>
+                <section class="chapter">
+                    <h3>Article 24</h3>
+                    <p>La dissolution de la fondation ne peut être prononcée que par les % de ses membres réunis en
+                        assemblée générale</p>
+                </section>
+                <section class="chapter">
+                    <h3>Article 25</h3>
+                    <p>En cas de dissolution de la fondation, son patrimoine est légué à une ou plusieurs
+                        organisations humanitaires ayant les mêmes objectifs que la fondation.</p>
+                </section>
+            </article>
+            <article id="part10" class="cyber-article hologram-effect">
+                <div class="article-number"> X</div>
+                <h2>DISPOSITION DIVERSES</h2>
+                <section class="chapter">
+                    <h3>Article 26</h3>
+                    <p>Le présent règlement générale intérieur ne peut être modifié que sur décision votée par l'assemblée générale</p>
+                </section>
+                <section class="chapter">
+                    <h3>Article 27</h3>
+                    <p>Le présent règlement intérieur entre en vigueur dès son adoption par l'assemblée générale</p>
+                </section>
+            </article>
+        </main>
+    </div>
+
+    <div class="download-container">
+        <button class="neon-button">
+            <i class="fas fa-download"></i>
+            <a href="Asset\Reglement Interieur de la FOCHAM sig (1).pdf" style="text-decoration: none;">Télécharger le .PDF</a>
+        </button>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-wave"></div>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><a href="mailto:fondation.chamsalhouda@gmail.com" style="color: #f7fafc;">fondation.chamsalhouda@gmail.com</a></p>
+                <p>+235 66251050</p>
+                <p>Abeche, Tchad</p>
+            </div>
+            <div class="footer-section" style="margin-left: 10px;">
+                <h3>Liens Utiles</h3>
+                <a href="reglement.html">Réglément</a><br>
+                <a href="cartographie.html">Cartographie</a><br>
+            </div>
+            <div class="footer-section">
+                <h3>Réseaux</h3>
+                <div class="social-links" >
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <p class="copyright">&copy; <span id="current-year"></span> CHAMSAL-HOUDA</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // Header et Menu Mobile (identique à l'accueil)
+        let lastScroll = 0;
+        const header = document.getElementById('header');
+        
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            header.classList.toggle('hidden', currentScroll > lastScroll && currentScroll > 100);
+            lastScroll = currentScroll;
+        });
+
+        // Gestion du menu mobile
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+        const menuClose = document.getElementById('menuClose');
+
+        const toggleMenu = () => {
+            navMenu.classList.toggle('active');
+            menuToggle.classList.toggle('hidden');
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
+        };
+
+        [menuToggle, menuClose].forEach(el => el.addEventListener('click', toggleMenu));
+
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                navMenu.classList.remove('active');
+                menuToggle.classList.remove('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        });
+   
+        // Animation au scroll
+        const articles = document.querySelectorAll('.cyber-article');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        articles.forEach(article => {
+            article.style.opacity = 0;
+            article.style.transform = 'translateY(50px)';
+            observer.observe(article);
+        });
+
+        // Navigation fluide
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                window.scrollTo({
+                    top: target.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

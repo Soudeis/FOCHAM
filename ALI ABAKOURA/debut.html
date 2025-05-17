@@ -1,0 +1,190 @@
+<!-- about.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHAMSAL-HOUDA - À Propos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <link rel="stylesheet" href="debut.css">
+    
+</head>
+<body>
+    <!-- Header Identique à l'accueil -->
+    <header class="header" id="header">
+        <nav class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="Asset\LOGO FOCHAM Fondation Chamsalhouda.png" alt="Logo CHAMSAL-HOUDA" class="logo-img">
+                <span class="logo-fondationt">CHAMSAL-HOUDA</span>
+            </a>
+            
+            <div class="nav-menu" id="navMenu">
+                <i class="fas fa-times menu-close" id="menuClose"></i>
+                <a href="index.html" class="nav-link">Accueil</a>
+                <a href="debut.html" class="nav-link">Genese</a>
+                <a href="miya.html" class="nav-link">Activités</a>
+                <a href="reglement.html" class="nav-link">Réglément</a>
+                <a href="cartographie.html" class="nav-link">Cartographie</a>
+            </div>
+            
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu mobile">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Section Histoire -->
+    <section class="histoire-section">
+        <div class="histoire-content">
+            <div class="histoire-text">
+                <h2>Notre Histoire</h2>
+                <p>Fondée en 2007 à Abeche, La fondation <strong>CHAMSAL-HOUDA (FOCHAM) </strong>est née de la volonté de citoyens engagés de créer un impact social durable.</p>
+            </div>
+            <div class="histoire-milestones">
+                <div class="milestone-card">
+                    <div class="milestone-date">2005</div>
+                    <h3>Création</h3>
+                    <p>Lancement des premiers programmes d'aide alimentaire</p>
+                </div>
+                <div class="milestone-card">
+                    <div class="milestone-date">2012</div>
+                    <h3>Expansion</h3>
+                    <p>Ouverture de 3 nouveaux centres régionaux</p>
+                </div>
+                <div class="milestone-card">
+                    <div class="milestone-date">2020</div>
+                    <h3>Reconnaissance</h3>
+                    <p>Prix national de l'innovation sociale</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Direction -->
+    <section class="equipe-section">
+        <h2 class="section-title">Notre Équipe Dirigeante</h2>
+        <div class="grid-leaders">
+            <div class="leader-card">
+                <img src="Asset\WhatsApp Image 2025-04-02 at 2.25.20 PM (1).jpeg" alt="Directrice Générale" class="leader-photo">
+                <h3><strong>CHAMSALHOUDA ABAKAR KADADE</strong></h3>
+                <p class="poste">Directrice Générale</p>
+                <p></p>
+            </div>
+
+            <div class="leader-card">
+                <img src="images/directeur-adjoint.jpg" alt="Directeur Adjoint" class="leader-photo">
+                <h3>.....</h3>
+                <p class="poste">Directeur Adjoint</p>
+                <p></p>
+            </div>
+
+            <div class="leader-card">
+                <img src="images/secretaire-general.jpg" alt="Secrétaire Général" class="leader-photo">
+                <h3>.....</h3>
+                <p class="poste">Secrétaire Générale</p>
+                <p></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Partenaires -->
+    <section class="partenaires-section">
+        <h2 class="section-title">Partenariats Stratégiques</h2>
+        <div class="partenaires-grid">
+            <div class="partenaire-card">
+                <img src="images/partenaire1.png" alt="UNICEF" class="partenaire-logo">
+                <div class="partenaire-duree">Depuis 2012</div>
+            </div>
+
+            <div class="partenaire-card">
+                <img src="images/partenaire2.png" alt="Croissant-Rouge" class="partenaire-logo">
+                <div class="partenaire-duree">Depuis 2008</div>
+            </div>
+
+            <div class="partenaire-card">
+                <img src="images/partenaire3.png" alt="Entreprise XYZ" class="partenaire-logo">
+                <div class="partenaire-duree">Depuis 2015</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Identique à l'accueil -->
+    <footer class="footer">
+        <div class="footer-wave"></div>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><a href="mailto:fondation.chamsalhouda@gmail.com" style="color: #f7fafc;">fondation.chamsalhouda@gmail.com</a></p>
+                <p>+235 66251050</p>
+                <p>Abeche, Tchad</p>
+            </div>
+            <div class="footer-section" style="margin-left: 10px;">
+                <h3>Liens Utiles</h3>
+                <a href="reglement.html">Réglément</a><br>
+                <a href="cartographie.html">Cartographie</a><br>
+            </div>
+            <div class="footer-section">
+                <h3>Réseaux</h3>
+                <div class="social-links" >
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <p class="copyright">&copy; <span id="current-year"></span> CHAMSAL-HOUDA</p>
+    </footer>
+
+    <!-- Scripts Identiques à l'accueil -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // Header et Menu Mobile (identique à l'accueil)
+        let lastScroll = 0;
+        const header = document.getElementById('header');
+        
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            header.classList.toggle('hidden', currentScroll > lastScroll && currentScroll > 100);
+            lastScroll = currentScroll;
+        });
+
+        // Gestion du menu mobile
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+        const menuClose = document.getElementById('menuClose');
+
+        const toggleMenu = () => {
+            navMenu.classList.toggle('active');
+            menuToggle.classList.toggle('hidden');
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
+        };
+
+        [menuToggle, menuClose].forEach(el => el.addEventListener('click', toggleMenu));
+
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                navMenu.classList.remove('active');
+                menuToggle.classList.remove('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Initialisation année
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Animations au défilement
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.milestone-card, .leader-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

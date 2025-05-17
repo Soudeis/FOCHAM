@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Géolocalisation CHAMSAL-HOUDA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-pink: #ff00ff;
+            --cyber-bg: #0b0f1a;
+            --cyber-border: #1a365d;
+        }
+        @media (max-width: 1024px) {
+            body {
+                padding-top: 70px;
+                font-size: 1.4rem;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                height: 100vh;
+                width: 280px;
+                background: var(--primary-color);
+                flex-direction: column;
+                padding: 8rem 2rem 2rem;
+                transition: var(--transition);
+                z-index: 999;
+                box-shadow: -2px 0 15px rgba(0, 0, 0, 0.2);
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+            }
+
+            .nav-menu.active .menu-close {
+                display: block;
+            }
+
+            .nav-menu.active ~ .menu-toggle {
+                display: none;
+            }
+
+            .nav-link {
+                width: 100%;
+                text-align: center;
+            }
+        }
+        body {
+            background: var(--cyber-bg);
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+        }
+
+        
+
+        .network-hero {
+            height: 60vh;
+            background: radial-gradient(circle at center, 
+                rgba(26, 54, 93, 0.8) 0%, 
+                rgba(11, 15, 26, 1) 100%),
+                url('images/dots-bg.png');
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hologram-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(0, 243, 255, 0.05) 0px,
+                rgba(0, 243, 255, 0.05) 2px,
+                transparent 3px,
+                transparent 8px
+            );
+        }
+
+        .geo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 4rem;
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        .node-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid var(--neon-blue);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .node-card:hover {
+            transform: translateY(-5px) rotateZ(1deg);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
+        }
+
+        .node-image {
+            height: 200px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .node-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+
+        .node-card:hover .node-image img {
+            transform: scale(1.1) rotate(0.5deg);
+        }
+
+        .node-marker {
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, var(--neon-blue) 30%, transparent 70%);
+            border: 2px solid var(--neon-blue);
+            border-radius: 50%;
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            animation: pulse 2s infinite;
+        }
+
+        /* Début de la carte modifiée depuis code1 */
+        #cyberMap {
+            height: 600px;
+            width: 90%;
+            margin: 2rem auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 2px solid #4a47ff;
+            
+        }
+
+        .cyber-marker {
+            background: transparent!important;
+            border: none!important;
+        }
+
+        .hologram-marker {
+            width: 35px;
+            height: 35px;
+            background: #4a47ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(74,71,255,0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .hologram-marker:hover {
+            transform: scale(1.2);
+        }
+
+        .leaflet-popup-content {
+            font-family: 'Inter'!important;
+            color: #2d3436!important;
+        }
+
+        .leaflet-control {
+            background: #ffffff!important;
+            border-radius: 8px!important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1)!important;
+        }
+
+        .legend {
+            padding: 1rem;
+            background: #ffffff!important;
+            border-radius: 10px!important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1)!important;
+        }
+        /* Fin de la carte modifiée */
+
+        .download-hud {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(0,0,0,0.8);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            border: 1px solid var(--neon-blue);
+            display: flex;
+            gap: 1rem;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .dl-btn {
+            background: none;
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dl-btn:hover {
+            background: var(--neon-blue);
+            color: var(--cyber-bg);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 0.4; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        @media (max-width: 768px) {
+            .geo-grid {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header" id="header">
+        <nav class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="Asset\LOGO FOCHAM Fondation Chamsalhouda.png" alt="Logo CHAMSAL-HOUDA" class="logo-img">
+                <span class="logo-fondation">CHAMSAL-HOUDA</span>
+            </a>
+            
+            <div class="nav-menu" id="navMenu">
+                <i class="fas fa-times menu-close" id="menuClose"></i>
+                <a href="index.html" class="nav-link">Accueil</a>
+                <a href="debut.html" class="nav-link">Genese</a>
+                <a href="miya.html" class="nav-link">Activités</a>
+                <a href="reglement.html" class="nav-link">Réglément</a>
+                <a href="cartographie.html" class="nav-link">Cartographie</a>
+            </div>
+            
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu mobile">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+
+    <section class="network-hero">
+        <div class="hologram-overlay"></div>
+        <h1 style="font-size: 3rem; text-shadow: 0 0 20px var(--neon-blue);">
+            RÉSEAU National<br>
+            <span style="font-size: 1.2rem;">SYSTÈME DE GEOLOCALISATION</span>
+        </h1>
+    </section>
+
+    <div class="geo-grid">
+        <!-- Tour Eiffel -->
+        <div class="node-card">
+            <div class="node-marker"></div>
+            <div class="node-image">
+                <img src="Asset\Ouaddaï.png" alt="Tour Eiffel">
+            </div>
+            <h3>OUADDAI</h3>
+            <p>48.8584° N, 2.2945° E</p>
+            <button class="dl-btn" onclick="downloadGeoData('eiffel')">
+                <i class="fas fa-download"></i> <a href="Asset\Ouaddaï.png" style="color:#e2e8f0;text-decoration: none;" download=""> TÉLÉCHARGER</a>
+            </button>
+        </div>
+        <div class="node-card">
+            <div class="node-marker"></div>
+            <div class="node-image">
+                <img src="Asset\Ouara.png" alt="ouara">
+            </div>
+            <h3>OUARA</h3>
+            <p>13.80992°N,20.76063°E/13.81103°N,20.80713°E <br>/13.83027°N,20.81712°E/13.83043°N,20.82088°E
+                /13.83055°N,20.81737°E/13.83028°N,20.81906°E  <br>/13.82333°N,20.82640°E /13.82363°N,20.81879°E /13.82447°N,20.80973°E/13.82686°N,20.81284°E 
+            </p>
+            <button class="dl-btn" onclick="downloadGeoData('eiffel')">
+                <i class="fas fa-download"></i><a href="Asset\Ouara.png" style="color:#e2e8f0;text-decoration: none;" download=""> TÉLÉCHARGER</a>
+            </button>
+        </div>
+        <div class="node-card">
+            <div class="node-marker"></div>
+            <div class="node-image">
+                <img src="Asset\Djourouf.png" alt="Tour Eiffel">
+            </div>
+            <h3>DJOUROUF</h3>
+            <p>12.76347°N,20.46423°E/12.77598°N	20.44679°E</p>
+            <button class="dl-btn" onclick="downloadGeoData('eiffel')">
+                <i class="fas fa-download"></i><a href="Asset\Djourouf.png" style="color:#e2e8f0;text-decoration: none;" download=""> TÉLÉCHARGER</a>
+            </button>
+        </div>
+
+        <!-- Statue de la Liberté -->
+        <div class="node-card">
+            <div class="node-marker"></div>
+            <div class="node-image">
+                <img src="Asset\Assoungha.png" alt="Statue de la Liberté">
+            </div>
+            <h3>ASSOUNGHA</h3>
+            <p>13.46657°N,22.20444°E</p>
+            <button class="dl-btn" onclick="downloadGeoData('statue')">
+                <i class="fas fa-download"></i><a href="AAsset\Assoungha.png" style="color:#e2e8f0;text-decoration: none;" download=""> TÉLÉCHARGER</a>
+            </button>
+        </div>
+        <div class="node-card">
+            <div class="node-marker"></div>
+            <div class="node-image">
+                <img src="Asset\Abougoudam.png" alt="Statue de la Liberté">
+            </div>
+            <h3>ABOUGOUDAM</h3>
+            <p>13.65773°N,20.75314°E/13.54261°N,20.63153°E <br>/13.49604°N,20.49305°E</p>
+            <button class="dl-btn" onclick="downloadGeoData('statue')">
+                <i class="fas fa-download"></i><a href="Asset\Abougoudam.png" style="color:#e2e8f0;text-decoration: none;" download=""> TÉLÉCHARGER</a>
+            </button>
+        </div>
+    </div>
+
+    <div id="cyberMap"></div>
+
+    <div class="download-hud">
+        <button class="dl-btn" onclick="downloadAllGeoData()">
+            <i class="fas fa-globe"></i><a href="Asset\Coordonnées GPS des organisation appuyées par le projet (1).xlsx - Données Géo.pdf" style="color:#e2e8f0;text-decoration: none;" download=""> Donwload FULL DATA</a>
+        </button>
+    </div>
+
+     <footer class="footer">
+        <div class="footer-wave"></div>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Notre engagement</h3>
+                <p>Agir pour un avenir meilleur grâce à des solutions durables et inclusives</p>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><a href="mailto:fondation.chamsalhouda@gmail.com" style="color: #f7fafc;">fondation.chamsalhouda@gmail.com</a></p>
+                <p>+235 66251050</p>
+                <p>Abeche, Tchad</p>
+            </div>
+            <div class="footer-section">
+                <h3>Suivez-nous</h3>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="Linkedin"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <p class="copyright">&copy; <span id="current-year"></span> CHAMSAL-HOUDA</p>
+    </footer>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+         let lastScroll = 0;
+        const header = document.getElementById('header');
+        const scrollThreshold = 100;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > lastScroll && currentScroll > scrollThreshold) {
+                header.classList.add('hidden');
+            } else {
+                header.classList.remove('hidden');
+            }
+            lastScroll = currentScroll;
+        });
+
+        // Gestion du Menu Mobile
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+        const menuClose = document.getElementById('menuClose');
+
+        function toggleMenu() {
+            const isMobile = window.matchMedia("(max-width: 1024px)").matches;
+            if (isMobile) {
+                navMenu.classList.toggle('active');
+                menuToggle.classList.toggle('hidden');
+                document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
+            }
+        }
+
+        menuToggle.addEventListener('click', toggleMenu);
+        menuClose.addEventListener('click', toggleMenu);
+
+        // Fermeture au clic extérieur
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                navMenu.classList.remove('active');
+                menuToggle.classList.remove('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Fermeture au scroll
+        window.addEventListener('scroll', () => {
+            if (navMenu.classList.contains('active')) {
+                toggleMenu();
+            }
+        });
+        // Configuration initiale de la carte (depuis code1)
+        const map = L.map('cyberMap', {
+            zoomControl: true,
+            attributionControl: false
+        }).setView([0, 0], 3);
+
+        // Fond de carte clair
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            maxZoom: 18
+        }).addTo(map);
+
+        // Données des localisations
+        const locations = [
+            {
+                name: "Union ADALA",
+                coords: [13.46657,22.20444],
+                type: "organisation",
+                icon: "📍",
+                color: "#4a47ff"
+            },
+            {
+                name: "Unité de transformation de la fondation", 
+                coords: [13.80992,20.76063],
+                type: "organisation",
+                icon: "📍",
+                color: "#ff6b6b"
+            },
+            {
+                name: "Union Wadi-Sabou", 
+                coords: [13.81103,20.80713],
+                type: "organisation",
+                icon: "📍",
+                color: "#ff6b7b"
+            },
+            {
+                name: "Groupement mixte des personnes handicapées", 
+                coords: [13.83027,20.81712],
+                type: "organisation",
+                icon: "📍",
+                color: "#ff6b5b"
+            },
+            {
+                name: "Unité de transformation de la fondation", 
+                coords: [13.80992,20.76063],
+                type: "organisation",
+                icon: "📍",
+                color: "#ff6b6b"
+            },
+            {
+                name: "Groupement Alsadakha", 
+                coords: [13.83043,20.82088],
+                type: "organisation",
+                icon: "📍",
+                color: "#ff7b6b"
+            },
+            {
+                name: "Unité de transformation de la fondation", 
+                coords: [13.80992,20.76063],
+                type: "organisation",
+                icon: "📍",
+                color: "#ff6b6b"
+            },
+            {
+                name: "Groupement Al-tawfikh", 
+                coords: [13.83055,20.81737],
+                type: "organisation",
+                icon: "📍",
+                color: "#ff6b6b"
+            },
+            {
+                name: "Union ourada", 
+                coords: [13.83028,20.81906],
+                type: "organisation",
+                icon: "📍",
+                color: "#ff6b6b"
+            },
+            {
+                name: "Groupement des transformatrices de Viande TARADONA", 
+                coords: [13.82333,20.82640],
+                type: "organisation",
+                icon: "📍",
+                color: "#ff6b6b"
+            },
+            {
+                name: "Groupement Achay Nassib", 
+                coords: [13.82363,20.81879],
+                type: "organisation",
+                icon: "📍",
+                color: "#af6b6b"
+            },
+            {
+                name: "Fédération Alsalama", 
+                coords: [13.82447,20.80973],
+                type: "organisation",
+                icon: "📍",
+                color: "#ff6b6b"
+            }
+            ,
+            {
+                name: "Bureau de la Fondation CHAMSAL-HOUDA", 
+                coords: [13.82686,20.81284],
+                type: "organisation",
+                icon: "📍",
+                color: "#ff6b6b"
+            }
+            ,
+            {
+                name: "Coopérative Anadja", 
+                coords: [13.65773,20.75314],
+                type: "organisation",
+                icon: "📍",
+                color: "#ff6b6b"
+            }
+            ,
+            {
+                name: "Groupement Am Alfadil pour le commerce de viande", 
+                coords: [13.54261,20.63153],
+                type: "organisation",
+                icon: "📍",
+                color: "#ff6b6c"
+            }
+            ,
+            {
+                name: "Groupement Abkhouta pour la viande", 
+                coords: [13.49604,20.49305],
+                type: "organisation",
+                icon: "📍",
+                color: "#ff6b6b"
+            }
+            ,
+            {
+                name: "Fédération Alfijkra", 
+                coords: [12.76347,20.46423],
+                type: "organisation",
+                icon: "📍",
+                color: "#ff6a6b"
+            }
+            ,
+            {
+                name: "Fédération Ambassatna", 
+                coords: [12.77598,20.44679],
+                type: "organisation",
+                icon: "📍",
+                color: "#ff6b6b"
+            }
+        ];
+
+        // Création des marqueurs
+        locations.forEach(location => {
+            const marker = L.marker(location.coords, {
+                icon: L.divIcon({
+                    className: 'cyber-marker',
+                    html: `<div class="hologram-marker" style="color:${location.color}">${location.icon}</div>`,
+                    iconSize: [35, 35]
+                })
+            }).addTo(map);
+
+            // Popup personnalisé
+            marker.bindPopup(`
+                <div style="text-align:center">
+                    <h3 style="color:${location.color}; margin:0 0 1rem 0">${location.name}</h3>
+                    <p>📍 ${location.coords[0]}°N, ${location.coords[1]}°E</p>
+                </div>
+            `);
+        });
+
+        // Légende
+        const legend = L.control({position: 'bottomright'});
+        legend.onAdd = () => {
+            const div = L.DomUtil.create('div', 'legend');
+            div.innerHTML = `
+                <h4 style="margin:0 0 1rem 0; color: #2d3436;">Légende</h4>
+                <div style="display:flex; align-items:center; margin:0.5rem 0">
+                    <div style="width:20px; height:20px; background:#4a47ff; border-radius:50%; margin-right:0.5rem"></div>
+                    Monuments
+                </div>
+                <div style="display:flex; align-items:center; margin:0.5rem 0">
+                    <div style="width:20px; height:20px; background:#ff6b6b; border-radius:50%; margin-right:0.5rem"></div>
+                    Sites importants
+                </div>
+            `;
+            return div;
+        };
+        legend.addTo(map);
+
+        // Gestion des téléchargements
+        function downloadGeoData(location) {
+            console.log(`Téléchargement des données pour ${location}...`);
+        }
+
+        function downloadAllGeoData() {
+            console.log("Exportation de toutes les données...");
+        }
+    </script>
+</body>
+</html>
